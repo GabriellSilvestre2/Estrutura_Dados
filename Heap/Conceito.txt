@@ -1,0 +1,27 @@
+ED ÁRVORE BINÁRIA HEAP
+MUITO USADA PARA FILA DE PRIORIDADES
+
+PODE SER: HEAP MÁXIMA ou HEAP MÍNIMA
+
+HEAP MÁXIMA: NÓ PAI É SEMPRE MAIOR QUE OS NÓS FILHOS
+HEAP MÍNIMA: NÓ PAI É SEMPRE MENOR QUE OS NÓS FILHOS
+
+ARMAZENADO EM UM VETOR
+
+       HEAP MINIMA
+           10
+          /  \
+         15   20
+        / \   / \
+      30  40 25  35
+
+[10, 15, 20, 30, 40, 25, 35]
+
+       HEAP MÁXIMA
+           90
+          /  \
+         80   50
+        / \   / \
+      60  50 40  70
+
+[90, 80, 70, 60, 50, 40, 30]
