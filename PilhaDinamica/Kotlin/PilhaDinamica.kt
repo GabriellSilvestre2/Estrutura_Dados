@@ -1,64 +1,73 @@
-package src.PilhaDinamica.Kotlin
+class PilhaDinamica(var tamanho: Int) : Empilhavel {
 
-class PilhaDinamica<T> {
-    private var dados: Array<Any?> = arrayOfNulls(10)
-    private var ponteiroFim = -1
+    var ponteiroTopo: NoDuplo? = null
+    var quantidade = 0
 
-    fun estaCheia(): Boolean{
-        return ponteiroFim == dados.size-1
+    override fun empilhar(dado: Any?) {
+        if (!estaCheia()) {
+            val novoNo = NoDuplo(dado)
+            if (!estaVazia()) {
+                ponteiroTopo?.proximo = novoNo
+                novoNo.anterior = ponteiroTopo
+            }
+            ponteiroTopo = novoNo
+            quantidade++
+        } else {
+            println("Pilha Cheia")
+        }
     }
 
-    fun estaVazia(): Boolean{
-        return ponteiroFim == -1
-    }
+    override fun desempilhar(): Any? {
+        var aux: Any? = null
 
-    fun redimencionar(){
-        var novosDados: Array<Any?> = arrayOfNulls(dados.size*2)
-
-        for (i in 0 .. ponteiroFim) {
-            novosDados[i] = dados[i]
+        if (!estaVazia()) {
+            aux = ponteiroTopo?.dado
+            ponteiroTopo = ponteiroTopo?.anterior
+            if (ponteiroTopo != null)
+                ponteiroTopo?.proximo = null
+            quantidade--
+        } else {
+            println("Pilha Vazia")
         }
 
-        dados = novosDados
+        return aux
     }
 
-    fun tamanhoPilha(): Int{
-        return ponteiroFim+1
-    }
-
-    fun inserir(dado: T){
-        if (estaCheia()) redimencionar()
-        ponteiroFim++
-        dados[ponteiroFim] = dado
-    }
-
-    fun remover(): T?{
-        var retorno: T? = null
-
-        if (!estaVazia()){
-            retorno = dados[ponteiroFim] as T?
-            dados[ponteiroFim] = null
-            ponteiroFim--
-        } else
-            println("Pilha Vazia!")
-
-        return retorno
-    }
-
-    fun obterTopo(): T?{
-        var retorno: T? = null
-
-        if (!estaVazia()){
-            retorno = dados[ponteiroFim] as T?
-        } else
-            println("Pilha Vazia!")
-
-        return retorno
-    }
-
-    fun imprimirPilha(){
-        for (i in ponteiroFim downTo 0){
-            println(dados[i])
+    override fun espiar(): Any? {
+        return if (!estaVazia()) {
+            ponteiroTopo?.dado
+        } else {
+            println("Pilha Vazia")
+            null
         }
+    }
+
+    override fun atualizar(dado: Any?) {
+        if (!estaVazia()) {
+            ponteiroTopo?.dado = dado
+        } else {
+            println("Pilha Vazia")
+        }
+    }
+
+    override fun estaCheia(): Boolean {
+        return quantidade == tamanho
+    }
+
+    override fun estaVazia(): Boolean {
+        return quantidade == 0
+    }
+
+    override fun imprimir(): String {
+        var aux = ponteiroTopo
+        var retorno = "["
+
+        while (aux != null) {
+            retorno += aux.dado
+            if (aux.anterior != null) retorno += ", "
+            aux = aux.anterior
+        }
+
+        return "$retorno]"
     }
 }
